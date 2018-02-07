@@ -4,11 +4,19 @@ canvas {
 
 #faceVideo {
     position: absolute;
-    z-index: 100;
-    top: 27vw;
-    left: 51vw;
+    z-index: 1;
+    // top: 27vw;
+    // left: 51vw;
+    top: 20vw;
+    left: 47vw;
 }
 
 #starmanCanvas {
+    position: absolute;
+    z-index: 100;
     width: 100vw;
+}
+
+.videoWrapper {
+    position: relative;
 }

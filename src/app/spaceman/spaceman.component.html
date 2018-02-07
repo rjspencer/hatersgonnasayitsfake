@@ -1,3 +1,12 @@
-<video #faceVideo id="faceVideo" width="80" height="100">Video stream not available.</video>
-<canvas #starmanCanvas id="starmanCanvas" width="1200" height="620">
-</canvas>
+<div class="videoInstructions">
+  <p>Let this page use your camera and you can put your face in Starman. The video is only on your computer. It is not being sent to a server.</p>
+  <button (click)="activateCamera()">
+    <i class="fas fa-camera"></i> 
+    &nbsp;Activate Camera
+  </button>
+</div>
+<div class="videoWrapper">
+  <canvas #starmanCanvas id="starmanCanvas" width="1200" height="620">
+  </canvas>
+  <video #faceVideo id="faceVideo" width="120" height="200">Video stream not available.</video>
+</div>

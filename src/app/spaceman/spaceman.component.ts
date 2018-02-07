@@ -15,7 +15,7 @@ export class SpacemanComponent implements OnInit {
     const starman: CanvasRenderingContext2D =
     this.starmanRef.nativeElement.getContext('2d');
     const image = new Image();
-    image.src = 'assets/starman1.jpg';
+    image.src = 'assets/starman1.png';
     image.onload = () => {
       starman.drawImage(image, 0, 0, 1200, 620);
       starman.font = '92px Oswald';
@@ -23,6 +23,9 @@ export class SpacemanComponent implements OnInit {
       starman.fillText('haters gonna say its fake'.toUpperCase(), 40, 140, 1120);
       starman.fillText('so real'.toUpperCase(), 800, 540, 360);
     };
+  }
+
+  activateCamera() {
     this.streamFace();
   }
 
