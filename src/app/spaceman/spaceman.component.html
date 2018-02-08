@@ -1,9 +1,15 @@
 <div class="videoInstructions">
   <p>Let this page use your camera and you can put your face in Starman. The video is only on your computer. It is not being sent to a server.</p>
-  <button (click)="activateCamera()">
+  <button (click)="activateCamera()" *ngIf="!cameraOn">
     <i class="fas fa-camera"></i> 
     &nbsp;Activate Camera
   </button>
+  <a href="{{png}}" download="hatergonnasayitsfake.png" *ngIf="cameraOn">
+    <button>
+      <i class="fas fa-download"></i> 
+      &nbsp;Download Image
+    </button>
+  </a>
 </div>
 <div class="videoWrapper">
   <canvas #starmanCanvas id="starmanCanvas" width="1200" height="620">

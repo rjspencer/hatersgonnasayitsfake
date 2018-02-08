@@ -6,52 +6,63 @@ import { Component, OnInit, ElementRef, ViewChild } from '@angular/core';
   styleUrls: ['./spaceman.component.scss']
 })
 export class SpacemanComponent implements OnInit {
+  cameraStream: Promise<void>;
   @ViewChild('starmanCanvas') starmanRef: ElementRef;
   @ViewChild('faceVideo') faceRef: ElementRef;
+  starmanCanvas: CanvasRenderingContext2D;
+  starmanImage: any;
+  cameraOn: boolean;
+  png: any;
 
   constructor() { }
 
   ngOnInit() {
-    const starman: CanvasRenderingContext2D =
-    this.starmanRef.nativeElement.getContext('2d');
-    const image = new Image();
-    image.src = 'assets/starman1.png';
-    image.onload = () => {
-      starman.drawImage(image, 0, 0, 1200, 620);
-      starman.font = '92px Oswald';
-      starman.fillStyle = 'white';
-      starman.fillText('haters gonna say its fake'.toUpperCase(), 40, 140, 1120);
-      starman.fillText('so real'.toUpperCase(), 800, 540, 360);
+    this.cameraOn = false;
+    this.starmanCanvas = this.starmanRef.nativeElement.getContext('2d');
+    this.starmanImage = new Image();
+    this.starmanImage.src = 'assets/starman1.png';
+    this.starmanImage.onload = () => {
+      this.drawStarman();
     };
   }
 
   activateCamera() {
+    this.cameraOn = true;
     this.streamFace();
+  }
+
+  deactivateCamera() {
+    this.cameraOn = false;
+    this.cameraStream = null;
   }
 
   streamFace() {
     const face: any = this.faceRef.nativeElement;
     if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
       // Not adding `{ audio: true }` since we only want video now
-      navigator.mediaDevices.getUserMedia({ video: true }).then(function(stream) {
+      this.cameraStream = navigator.mediaDevices.getUserMedia({ video: true })
+      .then((stream) => {
           face.src = window.URL.createObjectURL(stream);
           face.play();
+          const faceInterval = setInterval(() => {
+            this.starmanCanvas.drawImage(face, 540, 240, 200, 160);
+            this.drawStarman();
+            this.png = this.starmanRef.nativeElement.toDataURL();
+          }, 41);
       });
     }
   }
 
-  // snapFace() {
-  //   const context = canvas.getContext('2d');
-  //   if (width && height) {
-  //     canvas.width = width;
-  //     canvas.height = height;
-  //     context.drawImage(video, 0, 0, width, height);
-    
-  //     var data = canvas.toDataURL('image/png');
-  //     photo.setAttribute('src', data);
-  //   } else {
-  //     clearphoto();
-  //   }
-  // }
+  drawStarman() {
+    this.starmanCanvas.drawImage(this.starmanImage, 0, 0, 1200, 620);
+    this.starmanCanvas.font = '92px Oswald';
+    this.starmanCanvas.fillStyle = 'white';
+    this.starmanCanvas.fillText('haters gonna say its fake'.toUpperCase(), 40, 140, 1120);
+    this.starmanCanvas.fillText('so real'.toUpperCase(), 800, 540, 360);
+  }
+
+  createStarmanPng() {
+    this.png = this.starmanRef.nativeElement.toDataURL();
+  }
 
 }
